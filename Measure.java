@@ -9,21 +9,24 @@ median: middle value
 mode: most often
 variance: mean of squared differences of number and actual mean.
 standard deviation: squareroot of variance.
+skewness and kurtosis as defined by http://www.itl.nist.gov/div898/handbook/eda/section3/eda35b.htm
 */
 
-public class BasicStatistics {
+public class Measure {
 
 	public static void main(String[] args) {
-		int[] nums = { 600, 470, 170, 430, 300 };
-		System.out.println("Mean = " + BasicStatistics.mean(nums));
-		System.out.println("Median = " + BasicStatistics.median(nums));
-		if (BasicStatistics.mode(nums) != 0) {
-			System.out.println("Mode = " + BasicStatistics.mode(nums));
+		int[] nums = { 1,2,3,4,5,4,3,2,1 };
+		System.out.println("Mean = " + Measure.mean(nums));
+		System.out.println("Median = " + Measure.median(nums));
+		if (Measure.mode(nums) != 0) {
+			System.out.println("Mode = " + Measure.mode(nums));
 		} else {
 			System.out.println("Mode = none");
 		}
-		System.out.println("Standard Deviation = " + BasicStatistics.standardDeviation(nums));
-		System.out.println("Variance = " + BasicStatistics.variance(nums));
+		System.out.println("Standard Deviation = " + Measure.standardDeviation(nums));
+		System.out.println("Variance = " + Measure.variance(nums));
+		System.out.println("Skewness = " + Measure.skewness(nums));
+		System.out.println("Kurtosis = " + Measure.kurtosis(nums));
 
 	}
 
@@ -73,23 +76,38 @@ public class BasicStatistics {
 	}
 
 	public static double standardDeviation(int[] nums) {
-		double mean = BasicStatistics.mean(nums);
+		double mean = Measure.mean(nums);
 		int[] muArr = new int[nums.length];
 		for (int i = 0; i < nums.length; i++) {
 			muArr[i] = (int) Math.pow((nums[i] - mean), 2);
 		}
-		double variance = BasicStatistics.mean(muArr);
+		double variance = Measure.mean(muArr);
 		return Math.pow(variance, 0.5);
 	}
 
 	public static double variance(int[] nums) {
-		double mean = BasicStatistics.mean(nums);
-		int[] muArr = new int[nums.length];
-		for (int i = 0; i < nums.length; i++) {
-			muArr[i] = (int) Math.pow((nums[i] - mean), 2);
-		}
-		return BasicStatistics.mean(muArr);
+		return Math.pow(Measure.standardDeviation(nums), 2);
 
+	}
+	
+	public static double skewness(int[] nums) {
+		double eleMean = 0.0;
+		double mean = Measure.mean(nums);
+		for(int i=0;i<nums.length;i++){
+			eleMean = eleMean + Math.pow((nums[i] - mean), 3);
+		}
+		return (((eleMean/nums.length)/(Math.pow(Measure.standardDeviation(nums), 3))));
+
+	}
+	
+	public static double kurtosis(int[] nums) {
+		double eleMean = 0.0;
+		double mean = Measure.mean(nums);
+		for(int i=0;i<nums.length;i++){
+			eleMean = eleMean + Math.pow((nums[i] - mean), 4);
+		}
+		return (((eleMean/nums.length)/(Math.pow(Measure.standardDeviation(nums), 4))) - 3);
+		
 	}
 
 }
