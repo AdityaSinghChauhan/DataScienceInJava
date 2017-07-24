@@ -10,6 +10,7 @@ mode: most often
 variance: mean of squared differences of number and actual mean.
 standard deviation: squareroot of variance.
 skewness and kurtosis as defined by http://www.itl.nist.gov/div898/handbook/eda/section3/eda35b.htm
+using git
 */
 
 public class Measure {
